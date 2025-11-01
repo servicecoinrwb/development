@@ -114,6 +114,78 @@
                 </p>
             </section>
 
+            <!-- Part 1.6: Enabling Key Services (NEW!) -->
+            <section class="p-8 bg-white rounded-lg shadow-lg">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">Part 1.6: Enabling Key Services (From Your Screenshot)</h3>
+                <p class="text-lg mb-6">Your screenshot shows you're ready for the next logical step: setting up the actual services. Here’s what to do from that screen for both your `dev` and `prod` projects.</p>
+
+                <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">1. Setting up Firestore (Your Database)</h4>
+                <p class="mb-4">From the screen in your screenshot, click the blue <strong>"Create a Firestore database"</strong> button. You will be asked for several configuration options. Here's a breakdown:</p>
+                
+                <ol class="list-decimal list-inside space-y-6">
+                    <li>
+                        <p><strong>Select your Edition:</strong></p>
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-1 p-4 bg-gray-50 rounded-md">
+                            <li><strong>Standard Edition:</strong> This is the default and what you'll use for most web apps. It uses Firestore's simple query engine and automatic indexing.</li>
+                            <li><strong>Enterprise Edition:</strong> This is for advanced use cases, including MongoDB compatibility. For this guide, we'll stick with <strong>Standard Edition</strong>.</li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <p><strong>Configuration Options (Database Mode):</strong></p>
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-1 p-4 bg-gray-50 rounded-md">
+                            <li><strong>Firestore in Native mode:</strong> This is the correct choice. It enables the web and mobile SDKs so your app can talk directly to the database.</li>
+                            <li><strong>Firestore with Datastore compatibility:</strong> This is for older, server-side applications. Do not choose this for a new web app.</li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <p><strong>Security Rules:</strong> This is the *most important* choice for security.</p>
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-1 p-4 bg-gray-50 rounded-md">
+                            <li><strong>For your `prod` project:</strong> ALWAYS choose <strong class="text-red-600">Restrictive (Production mode)</strong>. This starts with secure rules (`allow read, write: if false;`) to protect your real user data.</li>
+                            <li><strong>For your `dev` project:</strong> You can choose <strong>Open (Test mode)</strong>. This allows open read/write for 30 days (`allow read, write: if request.time < timestamp.date(YYYY, MM, DD);`), which is fine for development but *very dangerous* for production.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Location:</strong> (This choice is permanent!)</p>
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-1 p-4 bg-gray-50 rounded-md">
+                            <li><strong>Multi-region (e.g., `nam5 (United States)`):</strong> This is the best choice for a production app. It offers the highest availability (99.999% SLA) by automatically replicating your data across multiple datacenters in a large area.</li>
+                            <li><strong>Region (e.g., `us-central1`):</strong> This is cheaper and perfectly fine for your `dev` project, or for a `prod` app where all your users are in one specific geographic area.</li>
+                            <li><strong>Recommendation:</strong> Use <strong>Multi-region</strong> for `prod` and <strong>Region</strong> for `dev` to save costs.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Encryption:</strong></p>
+                         <ul class="list-disc list-inside ml-6 mt-2 space-y-1 p-4 bg-gray-50 rounded-md">
+                            <li><strong>Google-managed encryption key:</strong> This is the default and what 99% of projects use. It's secure and there's nothing you need to do.</li>
+                            <li><strong>Cloud KMS key (CMEK):</strong> This is for organizations with extreme compliance needs that require managing their own encryption keys. You can ignore this.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>Finally, review the pricing summary and click <strong>"Create database"</strong>. That's it! Your database is now provisioned and ready.</p>
+                    </li>
+                </ol>
+
+                <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">2. Setting up Authentication (Your Users)</h4>
+                <ol class="list-decimal list-inside space-y-4 mt-4">
+                    <li>
+                        <p>In the same Google Cloud Console, use the top search bar to find <strong>"Firebase Authentication"</strong>.</p>
+                    </li>
+                    <li>
+                        <p>Click <strong>"Get Started"</strong>.</p>
+                    </li>
+                    <li>
+                        <p>This will take you to the Authentication console. Click the <strong>"Sign-in method"</strong> tab.</p>
+                    </li>
+                    <li>
+                        <p>Click on the providers you want to allow (e.g., "Email/Password", "Google") and enable them.</p>
+                    </li>
+                </ol>
+                <p class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 rounded">
+                    <strong>Important:</strong> You must repeat these steps for **both** your `dev` and `prod` projects. This ensures your `dev` app talks to your `dev` database/auth and your `prod` app talks to your real database/auth.
+                </p>
+            </section>
+
             <!-- Part 2: Local Setup (Firebase CLI) -->
             <section class="p-8 bg-white rounded-lg shadow-lg">
                 <h3 class="text-3xl font-bold text-gray-900 mb-4">Part 2: Local Setup with the Firebase CLI</h3>
@@ -132,7 +204,7 @@
                 <pre>$ firebase init</pre>
                 <p class="mt-4">This will ask you a few questions. For a web app, you'll want to select:</p>
                 <ul class="list-disc list-inside my-4 space-y-2">
-                    <li><strong>Feature:</strong> Use the arrow keys, press `Space` to select `Hosting: Configure files for Firebase Hosting...`, then press `Enter`.</li>
+                    <li><strong>Feature:</strong> Use the arrow keys, press `Space` to select `Hosting: Configure files for Firebase Hosting...`, then press `Enter`. (You can also select `Firestore` and `Authentication` here if you want).</li>
                     <li><strong>Project:</strong> Select `Use an existing project`.</li>
                     <li><strong>Default Project:</strong> Select your **dev** project (e.g., `my-awesome-app-dev`). This is important! Your default should always be the safe non-production environment.</li>
                     <li><strong>Public Directory:</strong> What folder contains your `index.html`? (Commonly `public` or `dist`). Type that and press `Enter`.</li>
@@ -238,6 +310,9 @@
                 </ul>
 
                 <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">How to Set This Up</h4>
+                <p class="mb-4">You can set this up using GitHub Actions. When you ran `firebase init`, it may have asked to set this up. You can also run <code>firebase init hosting:github</code> to add it later.</p>
+                <p class="mb-4">This creates a <code>.github/workflows</code> folder in your code with YAML files. These files tell GitHub to automatically run your build and deploy commands (like <code>npm run build</code> and <code>firebase deploy</code>) when you push code.</p>
+
                 <h4 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Monitoring & Rollbacks: Your Safety Net</h4>
                 <p class="mb-4">What if an update you push to production has a bug? This is a critical part of maintenance.</p>
                 <p class="mb-4">Firebase Hosting keeps a full version history of every deployment you've ever made. If you deploy a new version and discover a bug, you can roll back to a previous, stable version instantly.</p>
@@ -282,8 +357,5 @@
 
 </body>
 </html>
-
-
-
 
 
