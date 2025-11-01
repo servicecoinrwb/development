@@ -79,6 +79,41 @@
                 <p class="mt-6 text-sm text-gray-600"><strong>Why?</strong> This completely isolates your production data and authentication from your test environment. You can't accidentally wipe your real users' data if it's in a completely separate project.</p>
             </section>
 
+            <!-- Part 1.5: Alternative (GCP) Start -->
+            <section class="p-8 bg-white rounded-lg shadow-lg">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">Part 1.5: Alternative Start (Google Cloud Console)</h3>
+                <p class="text-lg mb-6">You mentioned you prefer starting in the Google Cloud console, and that workflow is just as valid. Here’s how you'd do it:</p>
+                <ol class="list-decimal list-inside space-y-4">
+                    <li>
+                        <strong>Step 1: Create a Google Cloud Project.</strong>
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-1">
+                            <li>Go to the <a href="https://console.cloud.google.com/" target="_blank" class="text-blue-600 hover:underline">Google Cloud Console</a>.</li>
+                            <li>In the top header, click the project selector dropdown and choose <strong>"New Project"</strong>.</li>
+                            <li>Give your project a name (e.g., <code>my-awesome-app-prod</code>) and create it.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Step 2: "Add Firebase" to the Project.</strong>
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-1">
+                            <li>Now, go to the <a href="https://console.firebase.google.com/" target="_blank" class="text-blue-600 hover:underline">Firebase Console</a>.</li>
+                            <li>Click on <strong>"Add project"</strong>.</li>
+                            <li>Instead of entering a new name, <strong>select your existing Google Cloud project</strong> (<code>my-awesome-app-prod</code>) from the list.</li>
+                            <li>Click "Continue" to "Firebase-enable" your project.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Step 3: Repeat for `dev`.</strong>
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-1">
+                            <li>Go back to the Google Cloud Console and create your `my-awesome-app-dev` project.</li>
+                            <li>Then go to the Firebase Console and "Add" that existing project.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p class="mt-6 p-4 bg-gray-50 border-l-4 border-gray-400 rounded">
+                    <strong>The Result:</strong> The outcome is exactly the same as Part 1. You have two projects, each one visible in both the Firebase and Google Cloud consoles. This way, you just started from the "engine room" (GCP) first.
+                </p>
+            </section>
+
             <!-- Part 2: Local Setup (Firebase CLI) -->
             <section class="p-8 bg-white rounded-lg shadow-lg">
                 <h3 class="text-3xl font-bold text-gray-900 mb-4">Part 2: Local Setup with the Firebase CLI</h3>
@@ -247,6 +282,7 @@
 
 </body>
 </html>
+
 
 
 
